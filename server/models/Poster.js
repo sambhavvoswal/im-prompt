@@ -1,0 +1,41 @@
+import mongoose from 'mongoose';
+
+const posterSchema = new mongoose.Schema({
+    trendId: { type: mongoose.Schema.Types.ObjectId, ref: 'Trend', required: true },
+    title: { type: String, required: true },
+    prompt: { type: String, required: true },
+    negativePrompt: { type: String },
+    tags: [{ type: String }],
+    style: {
+        type: String,
+        enum: ['photorealistic', 'illustration', '3d', 'watercolor', 'cinematic', 'anime', 'other'],
+        default: 'photorealistic'
+    },
+    aspectRatio: {
+        type: String,
+        enum: ['1:1', '16:9', '9:16', '4:5', '3:2', '2:3'],
+        default: '1:1'
+    },
+    primaryModel: {
+        type: String,
+        enum: ['midjourney', 'dalle3', 'flux', 'stable-diffusion'],
+        default: 'midjourney'
+    },
+    modelOutputs: [{
+        model: { type: String, enum: ['midjourney', 'dalle3', 'flux', 'stable-diffusion'] },
+        imageUrl: { type: String },
+        quality: { type: String, enum: ['high', 'medium', 'low'] },
+        renderTime: { type: String },
+        notes: { type: String }
+    }],
+    previewImage: { type: String },
+    copyCount: { type: Number, default: 0 },
+    likes: { type: Number, default: 0 },
+    isActive: { type: Boolean, default: true }
+}, {
+    timestamps: true
+});
+
+const Poster = mongoose.model('Poster', posterSchema);
+
+export default Poster;
