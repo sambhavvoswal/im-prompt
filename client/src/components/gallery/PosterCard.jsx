@@ -21,7 +21,7 @@ const PosterCard = ({ poster }) => {
         />
         
         {/* Gradient overlay for bottom metadata */}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-transparent to-transparent opacity-90 transition-opacity group-hover:opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 to-transparent opacity-90 transition-opacity group-hover:opacity-80" />
         
         <div className="absolute bottom-4 left-4 right-4 transition-transform group-hover:-translate-y-1 duration-300">
           <h3 className="font-headings font-bold text-text-primary text-lg leading-tight mb-2 line-clamp-2">

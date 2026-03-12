@@ -69,15 +69,16 @@ const TrendPage = () => {
       {/* Hero Section */}
       <div className="relative w-full h-[50vh] min-h-[400px] flex items-end pb-12 overflow-hidden border-b border-white/5">
         {/* Background Image with Blur */}
+        {/* Background Image with Blur */}
         {trend && (
           <div className="absolute inset-0">
             <img 
               src={trend.coverImage} 
               alt="" 
-              className="w-full h-full object-cover blur-xl scale-110 opacity-30"
+              className="w-full h-full object-cover blur-[100px] scale-125 opacity-20"
               onError={(e) => { e.target.style.display = 'none'; }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/80 to-transparent" />
+            <div className="absolute inset-0 bg-bg-primary/60 backdrop-blur-3xl" />
           </div>
         )}
         

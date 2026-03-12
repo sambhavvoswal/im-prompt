@@ -9,11 +9,11 @@ const Navbar = () => {
           
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center text-white font-bold text-lg shadow-[0_0_15px_rgba(236,72,153,0.5)] group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center text-bg-primary font-bold text-lg group-hover:scale-105 transition-transform">
               P
             </div>
-            <span className="font-headings font-bold text-xl tracking-tight hidden sm:block">
-              Prompt<span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Gallery</span>
+            <span className="font-headings font-bold text-xl tracking-tight hidden sm:block text-text-primary">
+              Prompt<span className="text-accent-primary italic">Gallery</span>
             </span>
           </Link>
 

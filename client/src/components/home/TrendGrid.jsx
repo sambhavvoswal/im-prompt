@@ -51,7 +51,7 @@ const TrendGrid = () => {
             onClick={() => setActiveCategory(cat)}
             className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
               activeCategory === cat 
-                ? 'bg-accent-primary text-white shadow-lg shadow-accent-primary/20' 
+                ? 'bg-white text-black shadow-lg shadow-white/20' 
                 : 'bg-bg-card text-text-muted hover:bg-bg-card-hover hover:text-text-primary border border-white/5'
             }`}
           >

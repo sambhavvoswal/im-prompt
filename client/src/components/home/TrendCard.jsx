@@ -23,14 +23,14 @@ const TrendCard = ({ trend }) => {
             }}
           />
           
-          <div className="absolute inset-0 bg-gradient-to-t from-bg-card via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-bg-card/90 to-transparent" />
           
           <div className="absolute top-3 left-3 bg-white text-black rounded-full px-2 py-1 text-sm shadow-lg leading-none">
             {trend.emoji}
           </div>
           
           {trend.isTrending && (
-            <div className="absolute top-3 right-3 bg-accent-primary text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1">
+            <div className="absolute top-3 right-3 bg-red-500/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)] flex items-center gap-1">
               <span>🔥</span> Trending
             </div>
           )}
