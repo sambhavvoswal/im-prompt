@@ -15,6 +15,7 @@ import posterRoutes from './routes/posters.js';
 import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { startServerPing } from './utils/pingServer.js';
 
 // Rate limiting
 const limiter = rateLimit({
@@ -53,6 +54,11 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ai-poster-g
         console.log('Connected to MongoDB');
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
+            
+            // Start the self-ping mechanism to keep Render server awake
+            // If API_URL is provided in production, use it. Otherwise default to localhost
+            const serverUrl = process.env.API_URL || `http://localhost:${PORT}`;
+            startServerPing(serverUrl);
         });
     })
     .catch((err) => {
