@@ -71,12 +71,12 @@ const PromptPanel = ({ poster }) => {
       {/* Metadata visually represented */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-auto pt-6 border-t border-white/5">
         
-        <div className="bg-bg-primary/50 p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center text-center">
+        {/* <div className="bg-bg-primary/50 p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center text-center">
           <span className="text-xs text-text-muted mb-1">Style</span>
           <span className="text-sm font-bold uppercase tracking-wider text-accent-secondary">
             {poster.style}
           </span>
-        </div>
+        </div> */}
         
         <div className="bg-bg-primary/50 p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center text-center">
           <span className="text-xs text-text-muted mb-1">Primary Model</span>

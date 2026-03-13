@@ -1,0 +1,122 @@
+[
+    {
+        "id": "ipl-2025",
+        "slug": "ipl-2025",
+        "title": "IPL 2025 🏏",
+        "emoji": "🏏",
+        "description": "Cricket fever — stadium energy, team spirit, championship vibes",
+        "category": "sports",
+        "tags": [
+            "ipl",
+            "cricket",
+            "india",
+            "t20",
+            "sports"
+        ],
+        "coverImage": "/placeholders/ipl-cover.jpg",
+        "isTrending": false,
+        "posterCount": 4
+    },
+    {
+        "id": "new-year-2026",
+        "slug": "new-year-2026",
+        "title": "New Year 2026 🎉",
+        "emoji": "🎉",
+        "description": "Countdown, confetti, fireworks — new year energy",
+        "category": "seasonal",
+        "tags": [
+            "new-year",
+            "celebration",
+            "fireworks"
+        ],
+        "coverImage": "/placeholders/newyear-cover.jpg",
+        "isTrending": false,
+        "posterCount": 3
+    },
+    {
+        "id": "mothers-day-2025",
+        "slug": "mothers-day-2025",
+        "title": "Mother's Day",
+        "emoji": "💐",
+        "description": "Heartfelt, elegant poster prompts for Mother's Day",
+        "category": "occasion",
+        "tags": [
+            "mothers-day",
+            "love",
+            "flowers",
+            "family"
+        ],
+        "coverImage": "/placeholders/mothers-day-cover.jpg",
+        "isTrending": false,
+        "posterCount": 3
+    },
+    {
+        "id": "eid-2025",
+        "slug": "eid-2025",
+        "title": "Eid Mubarak 2025",
+        "emoji": "🌙",
+        "description": "Elegant, luxurious Eid celebration poster prompts",
+        "category": "festival",
+        "tags": [
+            "eid",
+            "celebration",
+            "moon",
+            "gold"
+        ],
+        "coverImage": "/placeholders/eid-cover.jpg",
+        "isTrending": false,
+        "posterCount": 3
+    },
+    {
+        "id": "diwali-2025",
+        "slug": "diwali-2025",
+        "title": "Diwali 2025 ✨",
+        "emoji": "🪔",
+        "description": "Diyas, fireworks, golden light — festive poster magic",
+        "category": "festival",
+        "tags": [
+            "diwali",
+            "lights",
+            "festival",
+            "india"
+        ],
+        "coverImage": "/placeholders/diwali-cover.jpg",
+        "isTrending": false,
+        "posterCount": 4
+    },
+    {
+        "id": "holi-2025",
+        "slug": "holi-2025",
+        "title": "Holi 2025",
+        "emoji": "🎨",
+        "description": "Festival of Colors — vibrant, joyful, cinematic poster prompts",
+        "category": "festival",
+        "tags": [
+            "holi",
+            "colors",
+            "festival",
+            "india",
+            "spring"
+        ],
+        "coverImage": "/placeholders/holi-cover.jpg",
+        "isTrending": true,
+        "posterCount": 4
+    },
+    {
+        "id": "t20",
+        "slug": "t20",
+        "title": "T20 world cup win",
+        "emoji": "🏏",
+        "description": "",
+        "category": "sports",
+        "tags": [
+            "sports",
+            "t20",
+            "India",
+            "win"
+        ],
+        "coverImage": "https://res.cloudinary.com/dxvlo6wtv/image/upload/v1773425478/im-prompt-gallery/cdkgv7ygrr6sdfpe2x9v.png",
+        "isTrending": true,
+        "posterCount": 1
+    }
+]

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import PosterGrid from '../components/gallery/PosterGrid';
-import { TRENDS, POSTERS } from '../data/hardcoded';
+import { POSTERS } from '../data/hardcoded';
+import trendsData from '../data/trends.json';
 
 const TrendPage = () => {
   const { slug } = useParams();
@@ -20,25 +21,29 @@ const TrendPage = () => {
         setLoading(true);
         setError(null);
 
-        // Fetch Trend Details
-        const trendRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/trends/${slug}`);
-        setTrend(trendRes.data);
+        // Load Trend Details locally
+        const localTrend = trendsData.find(t => t.slug === slug);
+        
+        if (!localTrend) {
+          setError(true);
+          setLoading(false);
+          return;
+        }
+        
+        setTrend(localTrend);
 
-        // Fetch Posters for this Trend
-        const postersRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/posters?trendId=${trendRes.data._id}`);
+        // Fetch Posters for this Trend from API
+        const postersRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/posters?trendId=${localTrend.id}`);
         setPosters(postersRes.data);
 
       } catch (err) {
-        console.warn("Failed to load from API. Attempting fallback data.", err);
+        console.warn("Failed to load posters from API. Attempting fallback data.", err);
         
-        // Fallback Logic
-        const fallbackTrend = TRENDS.find(t => t.slug === slug);
-        if (fallbackTrend) {
-          setTrend(fallbackTrend);
-          const fallbackPosters = POSTERS.filter(p => p.trendId === fallbackTrend.id);
+        // Fallback Logic for posters
+        const localTrend = trendsData.find(t => t.slug === slug);
+        if (localTrend) {
+          const fallbackPosters = POSTERS.filter(p => p.trendId === localTrend.id);
           setPosters(fallbackPosters);
-        } else {
-          setError(true);
         }
       } finally {
         setLoading(false);

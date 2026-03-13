@@ -27,11 +27,11 @@ const PosterCard = ({ poster }) => {
           <h3 className="font-headings font-bold text-text-primary text-lg leading-tight mb-2 line-clamp-2">
             {poster.title}
           </h3>
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <span className="inline-block bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs px-2 py-1 rounded-md uppercase tracking-wider">
               {poster.style}
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
 

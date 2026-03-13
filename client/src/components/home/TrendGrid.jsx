@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { TRENDS } from '../../data/hardcoded';
 import TrendCard from './TrendCard';
-// import LoadingSpinner from '../common/LoadingSpinner';
 import { TrendCardSkeleton } from '../common/Skeletons';
+import trendsData from '../../data/trends.json';
 
 const CATEGORIES = ['All', 'Festival', 'Sports', 'Seasonal', 'Occasion'];
 
@@ -14,31 +12,29 @@ const TrendGrid = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTrends = async () => {
-      try {
-        setLoading(true);
-        // Add minimal delay for smooth UX transition
-        await new Promise(r => setTimeout(r, 400));
-        
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/trends`);
-        setTrends(response.data);
-        setError(null);
-      } catch (err) {
-        console.error("Failed to fetch trends from API, using fallback data", err);
-        // Fallback to hardcoded V1 data if API fails
-        setTrends(TRENDS);
-        // We do not set error state here fully as we have fallback data to show
-      } finally {
-        setLoading(false);
-      }
+    const loadTrends = async () => {
+      setLoading(true);
+      // Small delay for smooth skeleton UX transition
+      await new Promise(r => setTimeout(r, 300));
+      
+      setTrends(trendsData);
+      setError(null);
+      setLoading(false);
     };
 
-    fetchTrends();
+    loadTrends();
   }, []);
 
   const filteredTrends = activeCategory === 'All' 
-    ? trends 
+    ? [...trends] 
     : trends.filter(t => t.category.toLowerCase() === activeCategory.toLowerCase());
+
+  // Sort: trending first, then rest
+  filteredTrends.sort((a, b) => {
+    if (a.isTrending && !b.isTrending) return -1;
+    if (!a.isTrending && b.isTrending) return 1;
+    return 0;
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mb-20">

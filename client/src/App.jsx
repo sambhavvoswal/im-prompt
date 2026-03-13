@@ -5,6 +5,7 @@ import './index.css';
 
 import HomePage from './pages/HomePage';
 import TrendPage from './pages/TrendPage';
+import AdminPage from './pages/AdminPage';
 import PosterModal from './components/modal/PosterModal';
 
 import Navbar from './components/common/Navbar';
@@ -25,6 +26,7 @@ function App() {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/manage" element={<AdminPage />} />
               <Route path="/trend/:slug" element={<TrendPage />} />
             </Routes>
           </main>

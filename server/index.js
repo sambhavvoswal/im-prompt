@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 5000;
 
 import trendRoutes from './routes/trends.js';
 import posterRoutes from './routes/posters.js';
+import adminRoutes from './routes/adminRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 // Rate limiting
@@ -39,6 +41,8 @@ app.get('/health', (req, res) => {
 // Mount routes
 app.use('/api/trends', trendRoutes);
 app.use('/api/posters', posterRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Error handler middleware must be after all routes
 app.use(errorHandler);
