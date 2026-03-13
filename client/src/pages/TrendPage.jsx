@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import PosterGrid from '../components/gallery/PosterGrid';
-import { POSTERS } from '../data/hardcoded';
-import trendsData from '../data/trends.json';
 
 const TrendPage = () => {
   const { slug } = useParams();
@@ -21,30 +19,30 @@ const TrendPage = () => {
         setLoading(true);
         setError(null);
 
-        // Load Trend Details locally
-        const localTrend = trendsData.find(t => t.slug === slug);
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+        // Fetch Trend Details from API by slug
+        const trendRes = await axios.get(`${apiUrl}/api/trends/${slug}`);
+        const currentTrend = trendRes.data;
         
-        if (!localTrend) {
+        if (!currentTrend) {
           setError(true);
           setLoading(false);
           return;
         }
         
-        setTrend(localTrend);
+        setTrend(currentTrend);
 
         // Fetch Posters for this Trend from API
-        const postersRes = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/posters?trendId=${localTrend.id}`);
-        setPosters(postersRes.data);
+        const postersRes = await axios.get(`${apiUrl}/api/posters?trendId=${currentTrend._id}`);
+        if(postersRes.data && postersRes.data.success !== false) {
+          // If posters API returns { success: true, data: [...] } format
+          setPosters(postersRes.data.data ? postersRes.data.data : postersRes.data);
+        }
 
       } catch (err) {
-        console.warn("Failed to load posters from API. Attempting fallback data.", err);
-        
-        // Fallback Logic for posters
-        const localTrend = trendsData.find(t => t.slug === slug);
-        if (localTrend) {
-          const fallbackPosters = POSTERS.filter(p => p.trendId === localTrend.id);
-          setPosters(fallbackPosters);
-        }
+        console.error("Failed to load trend or posters from API:", err);
+        setError(true);
       } finally {
         setLoading(false);
       }

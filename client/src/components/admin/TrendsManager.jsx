@@ -99,10 +99,27 @@ const TrendsManager = ({ token }) => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this trend?')) {
+    if (window.confirm('Are you sure you want to delete this trend? This will also delete all associated prompts!')) {
       try {
-        await axios.delete(`${apiUrl}/api/admin/trends/${id}`, axiosConfig);
-        toast.success('Trend deleted successfully');
+        const { data } = await axios.delete(`${apiUrl}/api/admin/trends/${id}`, axiosConfig);
+        toast.success('Trend and associated prompts deleted successfully');
+        
+        // Check if there are deleted posters to backup
+        if (data.data && data.data.deletedPosters && data.data.deletedPosters.length > 0) {
+            if (window.confirm(`Would you like to download a backup of the ${data.data.deletedPosters.length} deleted prompts?`)) {
+                // Create a blob and trigger download
+                const blob = new Blob([JSON.stringify(data.data.deletedPosters, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-deleted-prompts-${id}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+        
         fetchTrends();
       } catch (error) {
         toast.error('Failed to delete trend');

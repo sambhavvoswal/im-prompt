@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TrendCard from './TrendCard';
 import { TrendCardSkeleton } from '../common/Skeletons';
-import trendsData from '../../data/trends.json';
+import axios from 'axios';
 
 const CATEGORIES = ['All', 'Festival', 'Sports', 'Seasonal', 'Occasion'];
 
@@ -16,10 +16,17 @@ const TrendGrid = () => {
       setLoading(true);
       // Small delay for smooth skeleton UX transition
       await new Promise(r => setTimeout(r, 300));
-      
-      setTrends(trendsData);
-      setError(null);
-      setLoading(false);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const { data } = await axios.get(`${apiUrl}/api/trends`);
+        setTrends(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching trends:', err);
+        setError('Failed to load trends. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadTrends();
