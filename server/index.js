@@ -28,7 +28,27 @@ const limiter = rateLimit({
 
 // Middleware
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps, curl, or Postman)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            process.env.CLIENT_URL,
+            'http://localhost:5173',
+            'http://localhost:5174',
+            'https://im-prompt.vercel.app' // Add hardcoded fallback for safety
+        ];
+        
+        // Remove trailing slashes for comparison just in case
+        const normalizedOrigin = origin.replace(/\/$/, '');
+        
+        if (allowedOrigins.some(allowed => allowed && allowed.replace(/\/$/, '') === normalizedOrigin)) {
+            return callback(null, true);
+        }
+        
+        console.warn(`[CORS Blocked] Origin: ${origin} not in allowed list:`, allowedOrigins);
+        return callback(new Error(`CORS policy restricts access from origin: ${origin}`), false);
+    },
     credentials: true
 }));
 app.use(express.json());
