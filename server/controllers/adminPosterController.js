@@ -1,6 +1,5 @@
 import Poster from '../models/Poster.js';
 import Trend from '../models/Trend.js';
-import { syncTrendsToJson } from '../utils/updateTrendsJson.js';
 
 // @desc    Get all posters
 // @route   GET /api/admin/posters
@@ -25,7 +24,6 @@ export const createPoster = async (req, res) => {
         await Trend.findByIdAndUpdate(req.body.trendId, {
             $inc: { posterCount: 1 }
         });
-        await syncTrendsToJson();
 
         res.status(201).json({ success: true, data: poster });
     } catch (error) {
@@ -54,7 +52,6 @@ export const updatePoster = async (req, res) => {
         if (req.body.trendId && existingPoster.trendId.toString() !== req.body.trendId) {
             await Trend.findByIdAndUpdate(existingPoster.trendId, { $inc: { posterCount: -1 } });
             await Trend.findByIdAndUpdate(req.body.trendId, { $inc: { posterCount: 1 } });
-            await syncTrendsToJson();
         }
 
         res.status(200).json({ success: true, data: poster });
@@ -77,7 +74,6 @@ export const deletePoster = async (req, res) => {
         await Trend.findByIdAndUpdate(poster.trendId, {
             $inc: { posterCount: -1 }
         });
-        await syncTrendsToJson();
 
         res.status(200).json({ success: true, data: {} });
     } catch (error) {

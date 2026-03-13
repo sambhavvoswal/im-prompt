@@ -1,5 +1,5 @@
 import Trend from '../models/Trend.js';
-import { syncTrendsToJson } from '../utils/updateTrendsJson.js';
+import Poster from '../models/Poster.js';
 
 // @desc    Get all trends (including inactive for admin)
 // @route   GET /api/admin/trends
@@ -19,7 +19,6 @@ export const getAdminTrends = async (req, res) => {
 export const createTrend = async (req, res) => {
     try {
         const trend = await Trend.create(req.body);
-        await syncTrendsToJson();
         res.status(201).json({ success: true, data: trend });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -38,7 +37,6 @@ export const updateTrend = async (req, res) => {
         if (!trend) {
             return res.status(404).json({ success: false, message: 'Trend not found' });
         }
-        await syncTrendsToJson();
         res.status(200).json({ success: true, data: trend });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -50,12 +48,26 @@ export const updateTrend = async (req, res) => {
 // @access  Private (Admin)
 export const deleteTrend = async (req, res) => {
     try {
-        const trend = await Trend.findByIdAndDelete(req.params.id);
+        const trendId = req.params.id;
+        const trend = await Trend.findByIdAndDelete(trendId);
         if (!trend) {
             return res.status(404).json({ success: false, message: 'Trend not found' });
         }
-        await syncTrendsToJson();
-        res.status(200).json({ success: true, data: {} });
+
+        // Fetch all posters associated with this trend to return them as backup data
+        const deletedPosters = await Poster.find({ trendId });
+        
+        // Cascade delete all posters associated with this trend
+        await Poster.deleteMany({ trendId });
+
+        res.status(200).json({ 
+            success: true, 
+            message: 'Trend and associated posters deleted successfully', 
+            data: {
+                trend,
+                deletedPosters
+            } 
+        });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
