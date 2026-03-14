@@ -1,6 +1,7 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import ReactGA from 'react-ga4/src/index.js';
 import './index.css';
 
 import HomePage from './pages/HomePage';
@@ -14,11 +15,20 @@ import ScrollToTop from './components/common/ScrollToTop';
 
 import { AppProvider } from './context/AppContext';
 
+function PageTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: location.pathname + location.search });
+  }, [location]);
+  return null;
+}
+
 function App() {
   return (
     <AppProvider>
       <Router>
         <ScrollToTop />
+        <PageTracker />
         <div className="min-h-screen app-container text-text-primary bg-bg-primary font-sans flex flex-col">
           <Toaster position="bottom-right" />
           <PosterModal />
