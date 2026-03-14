@@ -8,6 +8,7 @@ const PromptsManager = ({ token }) => {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingBefore, setUploadingBefore] = useState(false);
   const [filterTrendId, setFilterTrendId] = useState('all');
   
   // Form State
@@ -19,7 +20,7 @@ const PromptsManager = ({ token }) => {
     negativePrompt: '',
     style: 'photorealistic',
     aspectRatio: '1:1',
-    primaryModel: 'midjourney',
+    beforeImage: '',
     tags: '',
     previewImage: '',
     isActive: true
@@ -85,6 +86,45 @@ const PromptsManager = ({ token }) => {
     }
   };
 
+  const handleBeforeImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const data = new FormData();
+    data.append('image', file);
+
+    try {
+      setUploadingBefore(true);
+      const response = await axios.post(`${apiUrl}/api/upload`, data, {
+        headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` }
+      });
+      if (response.data.success) {
+        setFormData(prev => ({ ...prev, beforeImage: response.data.url }));
+        toast.success('Before Image uploaded successfully');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to upload Before Image');
+    } finally {
+      setUploadingBefore(false);
+    }
+  };
+
+  const handleDeleteImage = async (url, fieldName) => {
+    if (!window.confirm('Are you sure you want to permanently delete this uploaded image?')) return;
+    try {
+      setFormData(prev => ({ ...prev, [fieldName]: '' }));
+      await axios.delete(`${apiUrl}/api/upload`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { url }
+      });
+      toast.success('Image deleted from server successfully');
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to delete Image from server');
+    }
+  };
+
   const handleEdit = (poster) => {
     setEditingId(poster._id);
     setFormData({
@@ -94,7 +134,7 @@ const PromptsManager = ({ token }) => {
       negativePrompt: poster.negativePrompt || '',
       style: poster.style || 'photorealistic',
       aspectRatio: poster.aspectRatio || '1:1',
-      primaryModel: poster.primaryModel || 'midjourney',
+      beforeImage: poster.beforeImage || '',
       tags: poster.tags ? poster.tags.join(', ') : '',
       previewImage: poster.previewImage || '',
       isActive: poster.isActive
@@ -133,7 +173,7 @@ const PromptsManager = ({ token }) => {
       setFormData({
         trendId: trends.length > 0 ? trends[0]._id : '',
         title: '', prompt: '', negativePrompt: '', style: 'photorealistic',
-        aspectRatio: '1:1', primaryModel: 'midjourney', tags: '', previewImage: '', isActive: true
+        aspectRatio: '1:1', beforeImage: '', tags: '', previewImage: '', isActive: true
       });
       setEditingId(null);
       setShowForm(false);
@@ -158,7 +198,7 @@ const PromptsManager = ({ token }) => {
               setFormData({
                 trendId: trends.length > 0 ? trends[0]._id : '',
                 title: '', prompt: '', negativePrompt: '', style: 'photorealistic',
-                aspectRatio: '1:1', primaryModel: 'midjourney', tags: '', previewImage: '', isActive: true
+                aspectRatio: '1:1', beforeImage: '', tags: '', previewImage: '', isActive: true
               });
             }
           }}
@@ -213,14 +253,26 @@ const PromptsManager = ({ token }) => {
                 <option value="2:3">2:3</option>
               </select>
             </div>
-            <div>
-              <label className="block text-sm mb-1 text-text-secondary">Primary Model</label>
-              <select name="primaryModel" value={formData.primaryModel} onChange={handleInputChange} className="w-full bg-bg-primary border border-neutral-700 rounded p-2 text-text-primary">
-                <option value="midjourney">Midjourney</option>
-                <option value="dalle3">DALL-E 3</option>
-                <option value="flux">FLUX</option>
-                <option value="stable-diffusion">Stable Diffusion</option>
-              </select>
+            <div className="md:col-span-2 border border-neutral-700 p-4 rounded-lg">
+              <label className="block text-sm mb-1 text-text-secondary">Before Image (Optional)</label>
+              <div className="flex flex-col gap-3">
+                <input name="beforeImage" value={formData.beforeImage} onChange={handleInputChange} placeholder="Image URL (or upload below)" className="w-full bg-bg-primary border border-neutral-700 rounded p-2 text-text-primary" />
+                <div className="flex items-center gap-4">
+                  <span className="text-xs text-text-secondary">OR upload:</span>
+                  <input type="file" onChange={handleBeforeImageUpload} accept="image/*" disabled={uploadingBefore} className="file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-neutral-800 file:text-text-primary hover:file:bg-neutral-700 text-text-secondary cursor-pointer text-sm" />
+                  {uploadingBefore && <span className="text-yellow-500 text-xs animate-pulse">Uploading...</span>}
+                </div>
+              </div>
+              {formData.beforeImage && (
+                <div className="mt-4 flex flex-col gap-2">
+                  <p className="text-xs text-text-secondary">Preview:</p>
+                  <div className="relative inline-block w-fit">
+                    <img src={formData.beforeImage} alt="Before Preview" className="h-32 w-auto rounded border border-neutral-700 object-contain" />
+                    <button type="button" onClick={() => handleDeleteImage(formData.beforeImage, 'beforeImage')} className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-lg transition-colors text-sm font-bold" title="Delete Image from Cloudinary">×</button>
+                  </div>
+                  <button type="button" onClick={() => handleDeleteImage(formData.beforeImage, 'beforeImage')} className="text-red-500 hover:text-red-400 text-xs underline text-left w-fit">Delete Before Image</button>
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm mb-1 text-text-secondary">Tags (comma separated)</label>
@@ -233,9 +285,10 @@ const PromptsManager = ({ token }) => {
                 {uploading && <span className="text-yellow-500 text-sm animate-pulse">Uploading...</span>}
               </div>
               {formData.previewImage && (
-                <div className="mt-4">
+                <div className="mt-4 inline-block relative group">
                   <p className="text-xs text-text-secondary mb-1">Preview:</p>
                   <img src={formData.previewImage} alt="Cover Preview" className="h-48 w-auto rounded border border-neutral-700 object-contain" />
+                  <button type="button" onClick={() => handleDeleteImage(formData.previewImage, 'previewImage')} className="absolute top-6 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" title="Delete Image">×</button>
                 </div>
               )}
             </div>

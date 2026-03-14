@@ -16,18 +16,7 @@ const posterSchema = new mongoose.Schema({
         enum: ['1:1', '16:9', '9:16', '4:5', '3:2', '2:3'],
         default: '1:1'
     },
-    primaryModel: {
-        type: String,
-        enum: ['midjourney', 'dalle3', 'flux', 'stable-diffusion'],
-        default: 'midjourney'
-    },
-    modelOutputs: [{
-        model: { type: String, enum: ['midjourney', 'dalle3', 'flux', 'stable-diffusion'] },
-        imageUrl: { type: String },
-        quality: { type: String, enum: ['high', 'medium', 'low'] },
-        renderTime: { type: String },
-        notes: { type: String }
-    }],
+    beforeImage: { type: String },
     previewImage: { type: String },
     copyCount: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },

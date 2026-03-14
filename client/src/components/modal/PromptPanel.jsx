@@ -77,13 +77,6 @@ const PromptPanel = ({ poster }) => {
             {poster.style}
           </span>
         </div> */}
-        
-        <div className="bg-bg-primary/50 p-3 rounded-lg border border-white/5 flex flex-col items-center justify-center text-center">
-          <span className="text-xs text-text-muted mb-1">Primary Model</span>
-          <span className="text-sm font-bold text-accent-primary capitalize">
-            {poster.primaryModel?.replace('-', ' ')}
-          </span>
-        </div>
       </div>
     </div>
   );

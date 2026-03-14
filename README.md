@@ -1,6 +1,6 @@
 # 🎨 AI Poster Prompt Gallery
 
-A full-stack MERN application designed to curate, explore, and compare generative AI prompts for stunning poster art. See how different AI models (Midjourney, DALL·E 3, Flux, SDXL) interpret the exact same prompt.
+A full-stack MERN application designed to curate, explore, and visualize generative AI prompts for stunning poster art. See the before and after transformations bridging the gap between original concepts and AI-generated masterpieces.
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen.svg)](https://im-prompt.vercel.app/)
 [![Backend Status](https://img.shields.io/badge/API-Render-blue.svg)](https://im-prompt.onrender.com/health)
@@ -8,7 +8,7 @@ A full-stack MERN application designed to curate, explore, and compare generativ
 ## ✨ Features
 
 - **Trend Exploration:** Browse curated categories of popular design trends (Festival, Typography, Abstract, etc.).
-- **Model Comparison:** Click any poster to open an animated modal comparing how 4 different top-tier AI models generated an image from the identical prompt.
+- **Before & After Comparison:** Click any poster to open an animated modal comparing the final AI-generated image with the original source or seed image (when available).
 - **One-Click Copy:** Seamlessly copy complex AI prompts to your clipboard with visual feedback.
 - **Persistent Likes:** Show love to your favorite prompts. Engagement metrics are persisted to the database and your local browser.
 - **Beautiful UI:** Dark-mode first design built with Tailwind CSS, featuring glassmorphism elements, gradients, and Framer Motion micro-interactions.

@@ -2,13 +2,13 @@ import http from 'http';
 import https from 'https';
 
 /**
- * Pings the server's own /health endpoint every 14 minutes
+ * Pings the server's own /health endpoint every 10 minutes
  * to prevent the Render free tier from going to sleep (which happens after 15m).
  * @param {string} serverUrl - The fully qualified URL of the server (e.g. https://im-prompt-api.onrender.com)
  */
 export const startServerPing = (serverUrl) => {
-    // Ping every 14 minutes (14 * 60 * 1000 = 840000 ms)
-    const PING_INTERVAL = 14 * 60 * 1000;
+    // Ping every 10 minutes (10 * 60 * 1000 = 600000 ms)
+    const PING_INTERVAL = 10 * 60 * 1000;
 
     // Use http or https based on the protocol
     const lib = serverUrl.startsWith('https') ? https : http;
@@ -28,5 +28,5 @@ export const startServerPing = (serverUrl) => {
 
     }, PING_INTERVAL);
     
-    console.log(`[Self-Ping] Initialized. Server will be pinged every 14 minutes at ${serverUrl}/health`);
+    console.log(`[Self-Ping] Initialized. Server will be pinged every 10 minutes at ${serverUrl}/health`);
 };

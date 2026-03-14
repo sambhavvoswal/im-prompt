@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppContext } from '../../context/AppContext';
 import PromptPanel from './PromptPanel';
-import ModelComparison from './ModelComparison';
+import BeforeAfterComparison from './BeforeAfterComparison';
 
 const PosterModal = () => {
   const { isModalOpen, closeModal, selectedPoster } = useAppContext();
@@ -57,26 +57,12 @@ const PosterModal = () => {
                 </svg>
               </button>
 
-              {/* Left Side - Image (55%) */}
               <div className="w-full md:w-[55%] bg-bg-primary relative flex-shrink-0 flex items-center justify-center p-4 md:p-8 border-b md:border-b-0 md:border-r border-white/10">
                 <img 
                   src={selectedPoster.previewImage} 
                   alt={selectedPoster.title}
                   className="w-full h-full object-contain max-h-[40vh] md:max-h-none rounded-xl shadow-2xl"
                 />
-                
-                {/* Model Badge */}
-                <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 flex items-center gap-2">
-                  <div className={`w-2.5 h-2.5 rounded-full ${
-                    selectedPoster.primaryModel === 'midjourney' ? 'bg-purple-500 shadow-[0_0_10px_#a855f7]' :
-                    selectedPoster.primaryModel === 'dalle3' ? 'bg-emerald-500 shadow-[0_0_10px_#10b981]' :
-                    selectedPoster.primaryModel === 'flux' ? 'bg-blue-500 shadow-[0_0_10px_#3b82f6]' :
-                    'bg-orange-500 shadow-[0_0_10px_#f97316]'
-                  }`} />
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    {selectedPoster.primaryModel?.replace('-', ' ')}
-                  </span>
-                </div>
               </div>
 
               {/* Right Side - Content (45%) */}
@@ -102,7 +88,7 @@ const PosterModal = () => {
                         activeTab === 'compare' ? 'text-accent-secondary' : 'text-text-muted hover:text-text-primary'
                       }`}
                     >
-                      Compare Models
+                      Before & After
                       {activeTab === 'compare' && (
                         <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-secondary" />
                       )}
@@ -143,7 +129,7 @@ const PosterModal = () => {
                         transition={{ duration: 0.2 }}
                         className="h-full"
                       >
-                        <ModelComparison poster={selectedPoster} />
+                        <BeforeAfterComparison poster={selectedPoster} />
                       </motion.div>
                     )}
                   </AnimatePresence>
