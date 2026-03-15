@@ -19,12 +19,15 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { startServerPing } from './utils/pingServer.js';
 
 // Rate limiting
+// Keep basic protection on write-heavy endpoints, but don't rate-limit simple GETs
+// like `/api/trends` that power the public homepage grid.
 const limiter = rateLimit({
     windowMs: 1 * 60 * 1000,
     max: 30,
     message: 'Too many requests from this IP, please try again after a minute',
     standardHeaders: true,
     legacyHeaders: false,
+    skip: (req) => req.method === 'GET',
 });
 
 // Middleware

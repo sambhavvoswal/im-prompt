@@ -50,9 +50,10 @@ const SuggestionsManager = ({ token, onUnreadCountChange }) => {
   };
 
   const handleUpdateStatus = async (id, status) => {
+    if (status === 'approved' && !window.confirm('Approve this suggestion? It will be published as a live prompt with contributor credits.')) return;
     try {
-      await axios.put(`${apiUrl}/api/admin/suggestions/${id}`, { status, isRead: true }, axiosConfig);
-      toast.success(`Suggestion ${status}`);
+      const { data } = await axios.put(`${apiUrl}/api/admin/suggestions/${id}`, { status, isRead: true }, axiosConfig);
+      toast.success(data.message || `Suggestion ${status}`);
       fetchSuggestions();
     } catch {
       toast.error('Failed to update status');
@@ -218,15 +219,11 @@ const SuggestionsManager = ({ token, onUnreadCountChange }) => {
                           </button>
                         </>
                       )}
-                      {s.status === 'approved' && s.trendId && (
-                        <button
-                          onClick={() => handleConvert(s._id)}
-                          className="px-4 py-2 text-sm font-bold rounded-lg bg-gradient-to-r from-accent-primary/20 to-accent-secondary/20 text-accent-primary border border-accent-primary/30 hover:from-accent-primary/30 hover:to-accent-secondary/30 transition-colors"
-                        >
-                          🔄 Convert to Poster
-                        </button>
+                      {s.status === 'approved' && (
+                        <span className="px-4 py-2 text-sm font-medium text-green-400 flex items-center gap-1.5">
+                          ✓ Published as prompt
+                        </span>
                       )}
-                      {s.status !== 'pending' && s.status !== 'approved' && null}
                       <button
                         onClick={() => handleDelete(s._id)}
                         className="px-4 py-2 text-sm font-medium rounded-lg bg-neutral-800 text-text-muted border border-neutral-700 hover:text-red-400 hover:border-red-600/30 transition-colors ml-auto"

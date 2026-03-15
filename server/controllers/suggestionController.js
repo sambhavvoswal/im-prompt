@@ -1,5 +1,6 @@
 import Suggestion from '../models/Suggestion.js';
 import Poster from '../models/Poster.js';
+import Trend from '../models/Trend.js';
 
 // @desc    Submit a new prompt suggestion (public)
 // @route   POST /api/suggestions
@@ -66,6 +67,7 @@ export const getAdminSuggestions = async (req, res) => {
 };
 
 // @desc    Update suggestion status / notes / read state (admin)
+//          When approving a suggestion with a linked trend, automatically creates a Poster
 // @route   PUT /api/admin/suggestions/:id
 // @access  Admin
 export const updateSuggestionStatus = async (req, res) => {
@@ -77,12 +79,81 @@ export const updateSuggestionStatus = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Suggestion not found.' });
         }
 
+        const previousStatus = suggestion.status;
+
         if (status) suggestion.status = status;
         if (adminNotes !== undefined) suggestion.adminNotes = adminNotes;
         if (isRead !== undefined) suggestion.isRead = isRead;
 
+        let createdTrend = null;
+        let createdPoster = null;
+
+        // When approving a suggestion, optionally create a new Trend (for "new trend" suggestions)
+        // and then auto-convert the approved suggestion into a Poster.
+        // Guard: only run this flow when transitioning into approved (not if already approved).
+        if (status === 'approved' && previousStatus !== 'approved') {
+            try {
+                // If the suggestion proposed a brand new trend (no trendId yet but has suggestedTrendName),
+                // create a Trend using the same rules as the admin trend creator.
+                if (!suggestion.trendId && suggestion.suggestedTrendName) {
+                    const rawName = suggestion.suggestedTrendName.trim();
+                    const generatedSlug = rawName
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, '-')
+                        .replace(/^-+|-+$/g, '');
+
+                    createdTrend = await Trend.create({
+                        title: rawName,
+                        slug: generatedSlug,
+                        description: `Community suggested trend by ${suggestion.submitterName}`,
+                        tags: suggestion.tags || [],
+                        category: 'occasion',
+                        isActive: true,
+                        isTrending: false,
+                    });
+
+                    suggestion.trendId = createdTrend._id;
+                }
+
+                // Auto-convert to poster on approval if we now have a linked trend
+                if (suggestion.trendId) {
+                    createdPoster = await Poster.create({
+                        trendId: suggestion.trendId,
+                        title: suggestion.title,
+                        prompt: suggestion.prompt,
+                        negativePrompt: suggestion.negativePrompt || '',
+                        tags: suggestion.tags || [],
+                        style: suggestion.style || 'photorealistic',
+                        aspectRatio: suggestion.aspectRatio || '1:1',
+                        credits: suggestion.submitterName,
+                        isActive: true,
+                    });
+
+                    // Keep Trend.posterCount in sync — same as adminPosterController
+                    await Trend.findByIdAndUpdate(suggestion.trendId, {
+                        $inc: { posterCount: 1 }
+                    });
+
+                    suggestion.isRead = true;
+                    console.log(`[Suggestions] Poster created from suggestion "${suggestion.title}" by ${suggestion.submitterName}`);
+                }
+            } catch (err) {
+                console.error('[Suggestions] Failed to process approval flow:', err);
+                return res.status(500).json({ success: false, message: 'Failed to process approval: ' + err.message });
+            }
+        }
+
         await suggestion.save();
-        res.json({ success: true, data: suggestion });
+
+        res.json({
+            success: true,
+            data: suggestion,
+            trend: createdTrend,
+            poster: createdPoster,
+            message: createdPoster
+                ? `Approved! Poster "${createdPoster.title}" created and is now live with credit to ${suggestion.submitterName}.`
+                : undefined
+        });
     } catch (error) {
         console.error('Error updating suggestion:', error);
         res.status(500).json({ success: false, message: 'Failed to update suggestion.' });
