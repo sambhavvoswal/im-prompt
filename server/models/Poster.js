@@ -18,6 +18,7 @@ const posterSchema = new mongoose.Schema({
     },
     beforeImage: { type: String },
     previewImage: { type: String },
+    credits: { type: String }, // Name of the contributor who suggested this prompt
     copyCount: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true }

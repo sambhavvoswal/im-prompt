@@ -23,6 +23,7 @@ const PromptsManager = ({ token }) => {
     beforeImage: '',
     tags: '',
     previewImage: '',
+    credits: '',
     isActive: true
   });
 
@@ -137,6 +138,7 @@ const PromptsManager = ({ token }) => {
       beforeImage: poster.beforeImage || '',
       tags: poster.tags ? poster.tags.join(', ') : '',
       previewImage: poster.previewImage || '',
+      credits: poster.credits || '',
       isActive: poster.isActive
     });
     setShowForm(true);
@@ -173,7 +175,7 @@ const PromptsManager = ({ token }) => {
       setFormData({
         trendId: trends.length > 0 ? trends[0]._id : '',
         title: '', prompt: '', negativePrompt: '', style: 'photorealistic',
-        aspectRatio: '1:1', beforeImage: '', tags: '', previewImage: '', isActive: true
+        aspectRatio: '1:1', beforeImage: '', tags: '', previewImage: '', credits: '', isActive: true
       });
       setEditingId(null);
       setShowForm(false);
@@ -277,6 +279,10 @@ const PromptsManager = ({ token }) => {
             <div>
               <label className="block text-sm mb-1 text-text-secondary">Tags (comma separated)</label>
               <input name="tags" value={formData.tags} onChange={handleInputChange} className="w-full bg-bg-primary border border-neutral-700 rounded p-2 text-text-primary" />
+            </div>
+            <div>
+              <label className="block text-sm mb-1 text-text-secondary">Credits <span className="text-text-muted text-xs">(contributor name)</span></label>
+              <input name="credits" value={formData.credits} onChange={handleInputChange} placeholder="Who suggested this prompt?" className="w-full bg-bg-primary border border-neutral-700 rounded p-2 text-text-primary" />
             </div>
             <div className="md:col-span-2 border border-neutral-700 p-4 rounded-lg">
               <label className="block text-sm mb-2 text-text-secondary">Preview Image Upload</label>

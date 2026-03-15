@@ -24,9 +24,17 @@ const PosterCard = ({ poster }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 to-transparent opacity-90 transition-opacity group-hover:opacity-80" />
         
         <div className="absolute bottom-4 left-4 right-4 transition-transform group-hover:-translate-y-1 duration-300">
-          <h3 className="font-headings font-bold text-text-primary text-lg leading-tight mb-2 line-clamp-2">
+          <h3 className="font-headings font-bold text-text-primary text-lg leading-tight mb-1 line-clamp-2">
             {poster.title}
           </h3>
+          {poster.credits && (
+            <p className="text-xs text-accent-primary/80 font-medium flex items-center gap-1">
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              {poster.credits}
+            </p>
+          )}
           {/* <div className="flex gap-2">
             <span className="inline-block bg-white/10 backdrop-blur-md border border-white/10 text-white text-xs px-2 py-1 rounded-md uppercase tracking-wider">
               {poster.style}

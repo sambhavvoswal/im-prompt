@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import TrendPage from './pages/TrendPage';
 import AdminPage from './pages/AdminPage';
 import PosterModal from './components/modal/PosterModal';
+import SuggestPromptModal from './components/modal/SuggestPromptModal';
 
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
@@ -32,6 +33,7 @@ function App() {
         <div className="min-h-screen app-container text-text-primary bg-bg-primary font-sans flex flex-col">
           <Toaster position="bottom-right" />
           <PosterModal />
+          <SuggestPromptModal />
           <Navbar />
           <main className="flex-1">
             <Routes>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+
   return (
     <nav className="sticky top-0 z-40 w-full backdrop-blur-xl bg-bg-primary/80 border-b border-white/5 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,19 +19,19 @@ const Navbar = () => {
           </Link>
 
           {/* Right Side Actions */}
-          <div className="flex items-center gap-4">
-            <a 
-              href="mailto:suggest@promptgallery.ai" 
-              className="hidden md:flex text-sm font-medium text-text-muted hover:text-white transition-colors items-center gap-2"
+          <div className="flex items-center gap-3">
+            <button 
+              className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary text-black hover:shadow-lg hover:shadow-accent-primary/30 hover:scale-105 transition-all duration-300"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
-              Suggest a Trend
-            </a>
+              <span className="hidden sm:inline">Suggest a Prompt</span>
+              <span className="sm:hidden">Suggest</span>
+            </button>
             
             <a 
-              href="https://github.com" 
+              href="https://github.com/sambhavvoswal/im-prompt" 
               target="_blank" 
               rel="noopener noreferrer"
               className="p-2 text-text-muted hover:text-white bg-white/5 hover:bg-white/10 rounded-full transition-colors border border-white/5"
@@ -42,6 +43,16 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+          50% { box-shadow: 0 0 12px 4px rgba(212, 175, 55, 0.2); }
+        }
+        .suggest-btn {
+          animation: pulse-glow 2s ease-in-out 3;
+        }
+      `}</style>
     </nav>
   );
 };

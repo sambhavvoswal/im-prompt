@@ -14,6 +14,7 @@ import trendRoutes from './routes/trends.js';
 import posterRoutes from './routes/posters.js';
 import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import suggestionRoutes from './routes/suggestionRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { startServerPing } from './utils/pingServer.js';
 
@@ -64,6 +65,7 @@ app.use('/api/trends', trendRoutes);
 app.use('/api/posters', posterRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/suggestions', suggestionRoutes);
 
 // Error handler middleware must be after all routes
 app.use(errorHandler);
