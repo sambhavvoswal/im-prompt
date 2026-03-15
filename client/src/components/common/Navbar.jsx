@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../../context/AppContext';
 
 const Navbar = () => {
+  const { openSuggestModal } = useAppContext();
 
   return (
     <nav className="sticky top-0 z-40 w-full backdrop-blur-xl bg-bg-primary/80 border-b border-white/5 transition-all duration-300">
@@ -21,6 +23,7 @@ const Navbar = () => {
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
             <button 
+              onClick={openSuggestModal}
               className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full bg-gradient-to-r from-accent-primary to-accent-secondary text-black hover:shadow-lg hover:shadow-accent-primary/30 hover:scale-105 transition-all duration-300"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
