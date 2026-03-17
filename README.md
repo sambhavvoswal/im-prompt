@@ -1,119 +1,89 @@
-# 🎨 AI Poster Prompt Gallery
+# 🎨 im-prompt: AI Poster Prompt Gallery
 
-A full-stack MERN application designed to curate, explore, and visualize generative AI prompts for stunning poster art. See the before and after transformations bridging the gap between original concepts and AI-generated masterpieces.
+[![Live Demo](https://img.shields.io/badge/Live-Demo-000000.svg?style=for-the-badge&logo=vercel)](https://im-prompt.vercel.app/)
+[![API Status](https://img.shields.io/badge/API-Render-46E3B7.svg?style=for-the-badge&logo=render)](https://im-prompt.onrender.com/health)
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen.svg)](https://im-prompt.vercel.app/)
-[![Backend Status](https://img.shields.io/badge/API-Render-blue.svg)](https://im-prompt.onrender.com/health)
-
-## ✨ Features
-
-- **Trend Exploration:** Browse curated categories of popular design trends (Festival, Typography, Abstract, etc.).
-- **Before & After Comparison:** Click any poster to open an animated modal comparing the final AI-generated image with the original source or seed image (when available).
-- **One-Click Copy:** Seamlessly copy complex AI prompts to your clipboard with visual feedback.
-- **Persistent Likes:** Show love to your favorite prompts. Engagement metrics are persisted to the database and your local browser.
-- **Beautiful UI:** Dark-mode first design built with Tailwind CSS, featuring glassmorphism elements, gradients, and Framer Motion micro-interactions.
-- **Perceived Performance:** Smooth skeleton loaders replace traditional spinners to keep the layout stable during API requests.
+`im-prompt` is a premium MERN stack application designed for the modern AI era. It's a curated gallery where users can explore, copy, and contribute generative AI prompts, featuring a sophisticated "Before & After" visualization system that shows the transition from seed images to final masterpieces.
 
 ---
 
-## 🚀 Live Links
+## ✨ Key Features
 
-- **Frontend:** [https://im-prompt.vercel.app/](https://im-prompt.vercel.app/)
-- **Backend API:** [https://im-prompt.onrender.com/api/trends](https://im-prompt.onrender.com/api/trends)
+### 🌟 For Users
+- **Visual Storytelling:** Compare source "seed" images with final AI posters using an interactive sliding animation.
+- **Prompt Engineering Hub:** One-click copy for complex prompts with visual feedback.
+- **Trend Discovery:** Explore curated categories like *Festival*, *Typography*, and *Abstract*.
+- **Community Contributions:** Submit your own prompt ideas via the Suggestion Modal and get credited on the live site.
+- **High-End UI:** Minimalist monochrome aesthetic built with Tailwind CSS v4 and Framer Motion.
+
+### 🛡️ For Admins
+- **Content Management System:** Dedicated dashboard to manage trends and posters.
+- **Smart Suggestion Triage:** Automated workflow to convert community suggestions into live posters with one click.
+- **Data Integrity:** Cascading deletes for trends with automatic JSON backups of associated prompt data.
+- **Performance Monitoring:** Integrated keep-alive system to prevent server sleep on free-tier hosting.
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend:**
-- [React 18](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS v3](https://tailwindcss.com/)
-- [React Router v6](https://reactrouter.com/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [React Hot Toast](https://react-hot-toast.com/)
-
-**Backend:**
-- [Node.js](https://nodejs.org/)
-- [Express.js](https://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/) & [Mongoose](https://mongoosejs.com/)
-- [Express Rate Limit](https://www.npmjs.com/package/express-rate-limit)
+- **Frontend:** React 18, Vite, Tailwind CSS v4, Framer Motion, React Router v7.
+- **Backend:** Node.js, Express.js, MongoDB Atlas (Mongoose).
+- **Security:** JWT Authentication, Express Rate Limit.
+- **Analytics:** Google Analytics 4 integration.
 
 ---
 
-## 💻 Local Development
+## 🚀 Local Development
 
-Follow these steps to run the application locally.
-
-### Prerequisites
+### 1. Requirements
 - Node.js (v18+)
-- MongoDB (Local instance or MongoDB Atlas cluster)
+- MongoDB (Atlas or Local)
 
-### 1. Clone the repository
+### 2. Setup
 ```bash
+# Clone and enter
 git clone https://github.com/sambhavvoswal/im-prompt.git
 cd im-prompt
-```
 
-### 2. Install Dependencies
-Install dependencies for both the root workspace, client, and server:
-```bash
+# Install all dependencies (Root, Client, Server)
 npm install
 cd client && npm install
 cd ../server && npm install
 cd ..
 ```
 
-### 3. Environment Variables
-Create a `.env` file in the `server` directory:
+### 3. Environment Config
+**Server (`/server/.env`):**
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-NODE_ENV=development
-CLIENT_URL=http://localhost:5173
+JWT_SECRET=your_secret_key
+ADMIN_PASSWORD=your_dashboard_password
 ```
 
-Create a `.env` file in the `client` directory:
+**Client (`/client/.env`):**
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
-### 4. Seed the Database
-Populate your local MongoDB with curated initial data:
-```bash
-cd server
-node data/seed.js
-cd ..
-```
-
-### 5. Start the Application
-Run both the frontend and backend concurrently from the root directory:
+### 4. Run
 ```bash
 npm run dev
 ```
-- Client runs on: `http://localhost:5173`
-- Server API runs on: `http://localhost:5000`
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:5000`
 
 ---
 
-## 📡 API Endpoints
-
-### Trends
-- `GET /api/trends` - Fetch all trend categories.
-- `GET /api/trends/:slug` - Fetch a specific trend by slug.
-
-### Posters
-- `GET /api/posters` - Fetch all posters (supports `?trendId=` query).
-- `GET /api/posters/trending` - Fetch top posters by engagement.
-- `POST /api/posters/:id/copy` - Increment the copy count for a poster.
-- `POST /api/posters/:id/like` - Increment the like count for a poster.
+## 📡 Core API
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/api/trends` | `GET` | Fetch all active categories |
+| `/api/posters` | `GET` | Fetch gallery items (supports filtering) |
+| `/api/suggestions` | `POST`| Submit a community prompt |
+| `/api/admin/*` | `VAR` | Protected routes for content management |
 
 ---
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/sambhavvoswal/im-prompt/issues).
 
 ## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. Developed with ❤️ by [Sambhav Oswal](https://github.com/sambhavvoswal).
