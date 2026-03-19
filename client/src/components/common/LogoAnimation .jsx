@@ -42,8 +42,8 @@ export default function LogoAnimation() {
   return (
     <div className="flex items-center gap-2.5 cursor-pointer">
 
-      {/* 36x36 image frame */}
-      <div className="relative w-9 h-9 rounded-lg overflow-hidden border 
+      {/* 48x48 image frame */}
+      <div className="relative w-12 h-12 rounded-lg overflow-hidden border 
                       border-gray-200 dark:border-gray-800 flex-shrink-0">
         {FRAMES.map((f, i) => (
           <img
