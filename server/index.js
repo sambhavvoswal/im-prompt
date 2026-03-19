@@ -74,18 +74,30 @@ app.use('/api/suggestions', suggestionRoutes);
 app.use(errorHandler);
 
 // Database connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/ai-poster-gallery')
-    .then(() => {
-        console.log('Connected to MongoDB');
+const connectDB = async () => {
+    try {
+        const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/ai-poster-gallery';
+        console.log('Attempting to connect to MongoDB...', uri.split('@')[1] || uri); // Log cluster part only for safety
+        
+        await mongoose.connect(uri, {
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        });
+        
+        console.log('Successfully connected to MongoDB');
+        
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
-            
-            // Start the self-ping mechanism to keep Render server awake
-            // If API_URL is provided in production, use it. Otherwise default to localhost
             const serverUrl = process.env.API_URL || `http://localhost:${PORT}`;
             startServerPing(serverUrl);
         });
-    })
-    .catch((err) => {
-        console.error('Failed to connect to MongoDB', err);
-    });
+    } catch (err) {
+        console.error('CRITICAL: Failed to connect to MongoDB');
+        console.error(err.message);
+        // Important: Still start the server if DB fails? 
+        // No, usually best to exit or hang, but for debugging let's see the error.
+        process.exit(1);
+    }
+};
+
+connectDB();

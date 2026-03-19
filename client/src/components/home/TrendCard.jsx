@@ -37,16 +37,16 @@ const TrendCard = ({ trend }) => {
         </div>
         
         {/* Content Container */}
-        <div className="p-5">
-          <h3 className="text-xl font-bold font-headings text-text-primary mb-2 group-hover:text-accent-secondary transition-colors line-clamp-1">
+        <div className="p-3.5 sm:p-5">
+          <h3 className="text-lg sm:text-xl font-bold font-headings text-text-primary mb-1 sm:mb-2 group-hover:text-accent-secondary transition-colors line-clamp-1">
             {trend.title}
           </h3>
           
-          <p className="text-text-muted text-sm line-clamp-2 mb-4 h-10">
+          <p className={`text-text-muted text-[13px] sm:text-sm line-clamp-2 mb-2 sm:mb-4 ${trend.description ? 'h-auto min-h-0 sm:h-10' : 'h-0 sm:h-10 opacity-0'}`}>
             {trend.description}
           </p>
           
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
             {trend.tags?.slice(0, 3).map((tag, i) => (
               <TagBadge key={i} text={tag} />
             ))}

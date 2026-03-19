@@ -4,11 +4,11 @@ export const TrendCardSkeleton = () => {
   return (
     <div className="bg-bg-card rounded-2xl overflow-hidden border border-white/5 animate-pulse h-full flex flex-col">
       <div className="aspect-[4/3] bg-white/5 w-full"></div>
-      <div className="p-5 flex-1 flex flex-col">
-        <div className="h-6 bg-white/10 rounded w-3/4 mb-4"></div>
-        <div className="h-4 bg-white/5 rounded w-full mb-2"></div>
-        <div className="h-4 bg-white/5 rounded w-5/6 mb-6"></div>
-        <div className="flex gap-2 mb-4">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col">
+        <div className="h-5 sm:h-6 bg-white/10 rounded w-3/4 mb-1 sm:mb-2"></div>
+        <div className="h-3.5 sm:h-4 bg-white/5 rounded w-full mb-1 sm:mb-2 opacity-50"></div>
+        <div className="h-3.5 sm:h-4 bg-white/5 rounded w-5/6 mb-3 sm:mb-4 opacity-50"></div>
+        <div className="flex gap-1.5 sm:gap-2 mb-3 sm:mb-4">
           <div className="h-6 bg-white/5 rounded w-16"></div>
           <div className="h-6 bg-white/5 rounded w-20"></div>
         </div>

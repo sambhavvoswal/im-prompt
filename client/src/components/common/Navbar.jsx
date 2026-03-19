@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
+import LogoAnimation from './LogoAnimation ';
 
 const Navbar = () => {
   const { openSuggestModal } = useAppContext();
@@ -11,13 +12,18 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center text-bg-primary font-bold text-lg group-hover:scale-105 transition-transform">
+          {/* <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-white to-zinc-400 flex items-center justify-center text-bg-primary font-bold text-lg group-hover:scale-105 transition-transform">
               P
             </div>
             <span className="font-headings font-bold text-xl tracking-tight hidden sm:block text-text-primary">
-              Prompt<span className="text-accent-primary italic">Gallery</span>
+              <span className="text-accent-primary italic underline text-2xl">Prompt</span> <span className="text-white font-caveat">Gallery</span>
             </span>
+          </Link> */}
+          
+          {/*logo2*/}
+          <Link to='/' className='flex items-center gap-2 group'>
+            <LogoAnimation />
           </Link>
 
           {/* Right Side Actions */}

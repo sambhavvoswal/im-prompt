@@ -6,7 +6,7 @@ import { PosterCardSkeleton } from '../common/Skeletons';
 const PosterGrid = ({ posters, loading }) => {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 w-full">
         {[...Array(6)].map((_, i) => (
           <PosterCardSkeleton key={i} />
         ))}
@@ -25,7 +25,7 @@ const PosterGrid = ({ posters, loading }) => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 w-full">
       {posters.map((poster) => (
         <PosterCard key={poster._id || poster.id} poster={poster} />
       ))}

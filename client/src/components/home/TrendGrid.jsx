@@ -65,13 +65,13 @@ const TrendGrid = () => {
 
       {/* Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 w-full">
           {[...Array(8)].map((_, i) => (
             <TrendCardSkeleton key={i} />
           ))}
         </div>
       ) : filteredTrends.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 w-full">
           {filteredTrends.map(trend => (
             <TrendCard key={trend._id || trend.id} trend={trend} />
           ))}
