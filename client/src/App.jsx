@@ -15,6 +15,7 @@ import Footer from './components/common/Footer';
 import ScrollToTop from './components/common/ScrollToTop';
 
 import { AppProvider } from './context/AppContext';
+import { useFaviconAnimation } from './hooks/useFaviconAnimation';
 
 function PageTracker() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function PageTracker() {
 }
 
 function App() {
+  useFaviconAnimation();
   return (
     <AppProvider>
       <Router>
