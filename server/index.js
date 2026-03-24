@@ -46,6 +46,11 @@ app.use(cors({
         // Remove trailing slashes for comparison just in case
         const normalizedOrigin = origin.replace(/\/$/, '');
         
+        // Allow dynamic Vercel preview URLs
+        if (normalizedOrigin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
         if (allowedOrigins.some(allowed => allowed && allowed.replace(/\/$/, '') === normalizedOrigin)) {
             return callback(null, true);
         }
